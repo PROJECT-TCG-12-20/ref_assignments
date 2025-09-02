@@ -75,6 +75,7 @@ int Level::queensCount = 0;
 
 int main()
 {
+
     Level l5;
     int i, j;
     int choice;
@@ -105,5 +106,6 @@ int main()
     }
 
     // cout<<"Enter your choice location"
+
     return 0;
 }   
