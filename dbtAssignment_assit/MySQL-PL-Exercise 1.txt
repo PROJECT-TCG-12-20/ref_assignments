@@ -1,0 +1,138 @@
+1) create procedure perimeterArea()
+    -> begin
+    ->  declare l float(7,2) default 10;
+    ->  declare w float(7,2) default 5;
+    ->  declare perimeter float(7,2);
+    ->  declare area float(7,2);
+    ->  set perimeter = 2*(l+w);
+    ->  set area = l*w;
+    ->  insert into res values(perimeter,'Perimeter');
+    ->  insert into res values(area,'area');
+    -> end;//
+    call perimeterArea()//
+select * from res;
++-------+-----------+
+| value | c2        |
++-------+-----------+
+| 30.00 | Perimeter |
+| 50.00 | area      |
++-------+-----------+
+
+2) D3_92712_Prashantkumar>create table tempp(
+    -> value int,
+    -> V_cube int,
+    -> square int
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+D3_92712_Prashantkumar>delimiter //
+D3_92712_Prashantkumar>create procedure vsc(x int)
+    -> begin
+    ->  declare s int;
+    -> declare c int;
+    -> set s = x*x;
+    -> set c = x*s;
+    -> insert into tempp values(x,c,s);
+    -> end;//
+Query OK, 0 rows affected (0.02 sec)
+
+D3_92712_Prashantkumar>delimiter ;
+call vsc(2);
+Query OK, 1 row affected (0.02 sec)
+
+D3_92712_Prashantkumar>select * from tempp;
++-------+--------+--------+
+| value | V_cube | square |
++-------+--------+--------+
+|     2 |      8 |      4 |
++-------+--------+--------+
+1 row in set (0.00 sec)
+
+3) D3_92712_Prashantkumar>create table temperatures(
+    -> Fahrenheit float(4,2),
+    -> Celsius float(4,2));
+create procedure convertFtoC(x float(4,2))
+    -> begin
+    ->  declare c float(4,2);
+    ->  set c = (x-32)*5/9;
+    ->  insert into temperatures values(x,c);
+    ->  end//
+call convertFtoC(100);
+create procedure convertCtoF(x float(4,2))
+    -> begin
+    ->  declare f float(5,2);
+    ->  set f= (9/5)*x+32;
+    ->  insert into temperatures values(f,x);
+    -> end//
+call convertCtoF(27)//
+
+4) create table InchesToYards(
+    -> value int,
+    -> yards int,
+    -> feet int,
+    -> inches int);
+    -> //
+create procedure InchesToYards(x int)
+    -> begin
+    ->  declare yards int;
+    ->  declare feet int;
+    ->  declare inches int;
+    ->  set yards = x/36;
+    ->  set feet = (x-36*yards)/12;
+    ->  set inches = x-(36*yards)-(12*feet);
+    ->  insert into InchesToYards values(x,yards,feet,inches);
+    -> end;//
+call InchesToYards(124)//
+select * from InchesToYards//
++-------+-------+------+--------+
+| value | yards | feet | inches |
++-------+-------+------+--------+
+|   124 |     3 |   10 |   -104 |
+|   124 |     3 |    1 |      4 |
++-------+-------+------+--------+
+2 rows in set (0.00 sec)
+
+5) create procedure IsDivisibleBy5(x int)
+    -> begin
+    ->  declare remainder int;
+    -> set remainder = x%5;
+    -> if remainder != 0 then
+    -> select concat('Not Divisible by 5') from dual;
+    -> else
+    -> select concat('Divisible by 5') from dual;
+    -> end if;
+    -> end//
+Query OK, 0 rows affected (0.02 sec)
+
+D3_92712_Prashantkumar>call IsDivisibleBy5(10);
+    -> //
++--------------------------+
+| concat('Divisible by 5') |
++--------------------------+
+| Divisible by 5           |
++--------------------------+
+1 row in set (0.00 sec)
+
+6) create procedure compareWith100(x float,y float)
+    -> begin
+    ->  declare res float;
+    ->  set res = x*y;
+    ->  if res>100 then
+    ->  select concat('Greater than 100') from dual;
+    ->  elseif res = 100 then
+    ->  select concat('Equal to 100') from dual;
+    ->  end if;
+    -> end//
+Query OK, 0 rows affected (0.02 sec)
+
+D3_92712_Prashantkumar>call compareWith100(51,2);
+    -> //
++----------------------------+
+| concat('Greater than 100') |
++----------------------------+
+| Greater than 100           |
++----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
